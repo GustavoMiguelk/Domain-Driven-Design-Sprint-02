@@ -88,12 +88,12 @@ void main() {
 
                 if(idPgm == 0 && idade >= 18){
                     System.out.println("Somente menores de idade podem fazer parte desse programa.");
-                    return;
+                    break;
                 }
 
-                if(idPgm == 1 && sexo == "masculino"){
+                if(idPgm == 1 && sexo.equals("masculino")){
                     System.out.println("Somente mulheres podem fazer parte desse programa.");
-                    return;
+                    break;
                 }
 
                 if(idade < 18){
@@ -110,12 +110,11 @@ void main() {
 
                     responsaveis.add(new Responsavel(nomeResp, cpfResp, contato));
 
-                    for(int i = 0; i < responsaveis.size(); i++){
-                        String checarCpf = responsaveis.get(i).getCpf();
+                    for (Responsavel responsavei : responsaveis) {
+                        String checarCpf = responsavei.getCpf();
 
-                        if(checarCpf.equals(cpfResp)){
-                            int idResp = i;
-                            beneficiarios.add(new Beneficiario(nomeBen, idade, cpfBen, sexo, responsaveis.get(idResp), programas.get(1)));
+                        if (checarCpf.equals(cpfResp)) {
+                            beneficiarios.add(new Beneficiario(nomeBen, idade, cpfBen, sexo, responsavei, programas.get(1)));
                             System.out.println("Beneficiário cadastrado!");
                         }
                     }
@@ -125,12 +124,11 @@ void main() {
 
                     responsaveis.add(new Responsavel(nomeBen, cpfBen, contato));
 
-                    for(int i = 0; i < responsaveis.size(); i++){
-                        String checarCpf = responsaveis.get(i).getCpf();
+                    for (Responsavel responsavei : responsaveis) {
+                        String checarCpf = responsavei.getCpf();
 
-                        if(checarCpf.equals(cpfBen)){
-                            int idResp = i;
-                            beneficiarios.add(new Beneficiario(nomeBen, idade, cpfBen, sexo, responsaveis.get(idResp), programas.get(1)));
+                        if (checarCpf.equals(cpfBen)) {
+                            beneficiarios.add(new Beneficiario(nomeBen, idade, cpfBen, sexo, responsavei, programas.get(1)));
                             System.out.println("Beneficiário cadastrado!");
                         }
                     }
@@ -166,10 +164,10 @@ void main() {
 
                 for(int index = 0; index < beneficiarios.size(); index++){
                     if(cpf.equals(beneficiarios.get(index).getCpf())){
-                        int idBen = index;
+                        int idBenef;
+                        idBenef = index;
 
-                        System.out.println("Código da Consulta: ");
-                        String codigo = scan.nextLine();
+                        String codigo = UUID.randomUUID().toString();
 
                         System.out.println("Escolha o profissional: ");
                         for(int i = 0; i < profissionais.size(); i++){
@@ -194,16 +192,13 @@ void main() {
                             prof.setAgenda(new Agenda(prof));
                         }
 
-                        Consulta consulta = new Consulta(codigo, prof, beneficiarios.get(idBen), locais.get(idLocal), tipo, desc);
+                        Consulta consulta = new Consulta(codigo, prof, beneficiarios.get(idBenef), locais.get(idLocal), tipo, desc);
                         consultas.add(consulta);
                         prof.getAgenda().adicionarConsulta(consulta);
 
-                        System.out.println("Consulta cadastrada!");
+                        System.out.println("Consulta cadastrada! " + "Codigo da Consulta: " + codigo);
                         break;
 
-                    } else {
-                        System.out.println("Beneficiário não encontrado.");
-                        return;
                     }
                 }
 
@@ -227,7 +222,6 @@ void main() {
 
             default:
                 System.out.println("Opção Inválida!");
-                return;
         }
     }
 }
